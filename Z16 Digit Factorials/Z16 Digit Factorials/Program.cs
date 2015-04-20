@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +16,7 @@ namespace Z16_Digit_Factorials
 
             for (int i = 0 ; i < 10 ; i++)
             {
-                calculated_factorials[i] = FactorialRecursion(i);
+                calculated_factorials[i] = CalculateFactorialRecursively(i);
             }
 
             // verification
@@ -28,15 +28,15 @@ namespace Z16_Digit_Factorials
 
             for (int i = 10; i <= upper_bound; i++)
             {
-                int part = i;
+                int number_part = i;
                 int digit; // = part % 10;
                 int sum = 0;
 
-                while (part > 0)
+                while (number_part > 0)
                 {
-                    digit = part % 10;
+                    digit = number_part % 10;
                     sum += calculated_factorials[digit];
-                    part /= 10;
+                    number_part /= 10;
                 }
 
                 if (sum == i)
@@ -52,7 +52,19 @@ namespace Z16_Digit_Factorials
             Console.ReadKey();
         }
 
-        static int Factorial(int number)
+        /// Public: Calculate factorial of a given number
+        ///
+        /// number - The number to calculate factorial from.
+        ///
+        /// Examples
+        ///
+        ///     CalculateFactorial(4)
+        ///     # => 24
+        ///     CalculateFactorial(8)
+        ///     # => 40320
+        ///
+        ///    Returns factorial of a given number
+        public static int CalculateFactorial(int number)
         {
             int result = 1;
             for (int i = 1 ; i <= number ; i++)
@@ -62,7 +74,7 @@ namespace Z16_Digit_Factorials
             return result;
         }
 
-        static int FactorialRecursion(int number)
+        public static int CalculateFactorialRecursively(int number)
         {
             int result;
             if (number < 2)
