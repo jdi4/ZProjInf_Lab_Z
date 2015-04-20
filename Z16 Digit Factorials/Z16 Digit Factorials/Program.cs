@@ -8,27 +8,34 @@ namespace Z16_Digit_Factorials
 {
     class Program
     {
+        private int[] calculated_factorials = new int[10];
+        private const int upper_bound = 1854721; // from wikipedia
+        private int sum_to_find = 0;
+        
         static void Main(string[] args)
         {
-            int[] calculated_factorials = new int[10];
-            const int upper_bound = 1854721; // wiki
-            int sum_to_find = 0;
-
             for (int i = 0 ; i < 10 ; i++)
             {
-                calculated_factorials[i] = CalculateFactorialRecursively(i);
+                calculated_factorials[i] = CalculateFactorial(i);
             }
-
-            // verification
-            //int j = 0;
-            //foreach (int i in calculated_factorials)
-            //{
-            //    Console.WriteLine("{0}! = {1}", (j++).ToString(), i.ToString());
-            //}
 
             for (int i = 10; i <= upper_bound; i++)
             {
-                int number_part = i;
+                int sum = CalculateSumOfFactorials(i);
+                
+                if (sum == i)
+                {
+                    sum_to_find += i;
+                }
+            }
+
+            Console.WriteLine("Suma znalezionych liczb: {0}", sum_to_find.ToString());
+            Console.ReadKey();
+        }
+        
+        public static int CalculateSumOfFactorials(int number)
+        {
+                int number_part = number;
                 int digit; // = part % 10;
                 int sum = 0;
 
@@ -38,19 +45,10 @@ namespace Z16_Digit_Factorials
                     sum += calculated_factorials[digit];
                     number_part /= 10;
                 }
-
-                if (sum == i)
-                {
-                    sum_to_find += i;
-                }
-
-            }
-
-            Console.WriteLine("Suma znalezionych liczb: {0}", sum_to_find.ToString());
-
-
-            Console.ReadKey();
+                
+                return sum;
         }
+        
 
         /// Public: Calculate factorial of a given number
         ///
@@ -71,21 +69,6 @@ namespace Z16_Digit_Factorials
             {
                 result *= i;
             }
-            return result;
-        }
-
-        public static int CalculateFactorialRecursively(int number)
-        {
-            int result;
-            if (number < 2)
-            {
-                result = 1;
-            }
-            else
-            {
-                result = number * FactorialRecursion(number - 1);
-            }
-
             return result;
         }
     }
