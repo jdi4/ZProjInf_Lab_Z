@@ -8,9 +8,8 @@ namespace Z16_Digit_Factorials
 {
     class Program
     {
-        private int[] calculated_factorials = new int[10];
-        private const int upper_bound = 1854721; // from wikipedia
-        private int sum_to_find = 0;
+        private static int[] calculated_factorials = new int[10];
+        private const int max_upper_bound = 1854721; // from wikipedia
         
         static void Main(string[] args)
         {
@@ -19,34 +18,65 @@ namespace Z16_Digit_Factorials
                 calculated_factorials[i] = CalculateFactorial(i);
             }
 
-            for (int i = 10; i <= upper_bound; i++)
+            Console.WriteLine("Suma znalezionych liczb: {0}", FindSumOfFactorions(10, max_upper_bound).ToString());
+
+            Console.ReadKey();
+        }
+
+        public static int FindSumOfFactorions(int left_bound, int right_bound)
+        {
+            int sum_of_factorions = 0;
+
+            for (int i = left_bound; i <= right_bound; i++)
             {
-                int sum = CalculateSumOfFactorials(i);
-                
+                int sum = CalculateSumOfFactorialsOfNumber(i);
+
                 if (sum == i)
                 {
-                    sum_to_find += i;
+                    sum_of_factorions += i;
                 }
             }
 
-            Console.WriteLine("Suma znalezionych liczb: {0}", sum_to_find.ToString());
-            Console.ReadKey();
+            return sum_of_factorions;
         }
         
-        public static int CalculateSumOfFactorials(int number)
+        public static int CalculateSumOfFactorialsOfNumber(int number)
         {
-                int number_part = number;
-                int digit; // = part % 10;
                 int sum = 0;
+                int[] number_digits = SplitNumberIntoDigits(number);
 
-                while (number_part > 0)
+                foreach (int d in number_digits)
                 {
-                    digit = number_part % 10;
-                    sum += calculated_factorials[digit];
-                    number_part /= 10;
+                    sum += calculated_factorials[d];
                 }
                 
                 return sum;
+        }
+
+        public static int[] SplitNumberIntoDigits(int number)
+        {
+            int[] digits_array = new int[CountNumberOfDigitsInNumber(number)];
+
+            for (int i = digits_array.Length - 1; i > -1; i--)
+            {
+                digits_array[i] = number % 10;
+                number /= 10;
+            }
+
+            return digits_array;
+        }
+
+        private static int CountNumberOfDigitsInNumber(int number)
+        {
+            int number_of_digits = 0;
+
+            do
+            {
+                number_of_digits++;
+                number /= 10;
+            } while (number != 0);
+
+            return number_of_digits;
         }
         
 
